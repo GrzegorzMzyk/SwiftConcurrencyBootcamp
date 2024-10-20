@@ -54,6 +54,7 @@ class DownloadImageAsyncModel: ObservableObject {
     let loader = DownloadImageAsyncLoader()
     var cancellables = Set<AnyCancellable>()
     func fetchiImage() async {
+        
 //        loader.downloadWithEscaping { [weak self] image, error in
 //            DispatchQueue.main.async {
 //                self?.image = image
@@ -70,7 +71,10 @@ class DownloadImageAsyncModel: ObservableObject {
 //            .store(in: &cancellables)
 
         let image = try? await loader.downloadWithAsync()
+        await MainActor.run {
             self.image = image
+        }
+            
     }
 }
 
